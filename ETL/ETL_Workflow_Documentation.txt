@@ -1,0 +1,93 @@
+
+ETL Workflow Documentation
+The ETL workflow for this project follows three main stages: Extract, Transform, and Load. Below is a detailed explanation of each stage:
+
+1. Extract
+Data Sources:
+- The dataset is obtained from a randomized county-sized population sample, anonymized for security and privacy.
+- It includes demographic information (age, race, income, education level, gender, marital status) and origins data (serial numbers, ancestry, language).
+
+Extraction Process:
+- Data is downloaded as a compressed file (.zip) containing multiple CSVs.
+- The relevant CSV files are extracted using Python’s requests and zipfile modules.
+- BeautifulSoup is optionally used to scrape metadata or verify file links for dynamic URL management.
+
+2. Transform
+Data Cleaning:
+- Null values are replaced with defaults (e.g., 0 for numerical fields) or removed if they cannot be imputed.
+- Invalid or outlier values are filtered based on configurable thresholds.
+
+Feature Engineering:
+- Age groups are categorized (e.g., 18–24, 25–34, etc.) for easier filtering.
+- Income brackets are created to allow users to search by ranges.
+- Gender codes (1 for male, 2 for female) are standardized.
+
+Data Normalization:
+- Fields like serialno, rac1p, and schl are cleaned to ensure consistent formatting.
+- Columns are renamed to lowercase for database compatibility (e.g., agep becomes agep).
+
+Table Separation:
+- Data is divided into two tables:
+  - demographic_data: Contains user-related information like age, race, income, education, marital status, and gender.
+  - origins: Contains ancestry, language, and serial numbers for linking to demographic data.
+
+3. Load
+Database Schema:
+- The PostgreSQL database is designed with two primary tables:
+  - demographic_data:
+    - serialno: Unique identifier (Primary Key).
+    - agep: Age of the user.
+    - rac1p: Race code.
+    - pernp: Personal income.
+    - schl: Education level.
+    - mar: Marital status.
+    - sex: Gender (1: Male, 2: Female).
+  - origins:
+    - serialno: Unique identifier (Primary Key, Foreign Key to demographic_data).
+    - lanp: Language code.
+    - anc1p: Ancestry code.
+
+Data Insertion:
+- Cleaned and transformed data is inserted into the PostgreSQL database using the psycopg2 library.
+- Each table is populated separately, with consistency enforced through primary and foreign key relationships.
+
+Verification:
+- Sample queries validate data integrity (e.g., ensuring all serialno in origins exist in demographic_data).
+
+Entity-Relationship Diagram (ERD) (Text Description)
+The ERD for this project consists of two primary tables:
+
+1. demographic_data
+Columns:
+- serialno (Primary Key): Unique identifier for each user.
+- agep: Age of the user.
+- rac1p: Race code.
+- pernp: Personal income.
+- schl: Education level.
+- mar: Marital status.
+- sex: Gender (1: Male, 2: Female).
+
+2. origins
+
+Columns:
+- serialno (Primary Key, Foreign Key to demographic_data): Unique identifier for each user.
+- lanp: Language code.
+- anc1p: Ancestry code.
+
+Relationships:
+- One-to-One: Each serialno in the origins table corresponds to exactly one record in the demographic_data table.
+
+Entity-Relationship Diagram (ERD) (Text Representation):
+
++-------------------+          +-------------+
+| demographic_data  |          | origins     |
++-------------------+          +-------------+
+| serialno (PK)     | <------- | serialno (PK, FK) |
+| agep              |          | lanp              |
+| rac1p             |          | anc1p             |
+| pernp             |          
+| schl              |          
+| mar               |          
+| sex               |          
++-------------------+          +-------------+
+
