@@ -55,6 +55,7 @@ env\Scripts ctivate`
 
    The app will be accessible at `http://127.0.0.1:5000/`.
 
+  Modify the url with conditions as stated in the app file to make your selections.
 ---
 
 Sources
