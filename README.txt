@@ -5,6 +5,8 @@
 
 The purpose of this project is experiment with PUMS date in a way that facilitates user-tailored matchmaking preferences and supports advanced machine learning algorithms for large-scale dating platforms. By leveraging anonymized data and customizable filters, the system enables users to search for potential matches based on specific preferences such as age, gender, income, and other demographic factors. Simultaneously, the platform is designed to integrate seamlessly with machine learning models, allowing dating sites to analyze patterns, improve matchmaking accuracy, and optimize user experiences. This dual focus on personalized filtering and scalable machine learning integration ensures a powerful, adaptable solution for modern dating platforms.
 
+A SQL database was used to store this information as it was structured (geospatials removed)
+
 ## Key Features
 
 - **Customizable Filters**: Enables filtering based on age, race, income, gender, and other attributes.
