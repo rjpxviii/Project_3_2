@@ -1,0 +1,38 @@
+
+## ETL Workflow Documentation
+
+### Extract
+The extraction process involves downloading and extracting datasets from a compressed file. The dataset includes demographic data and origins information, such as age, race, income, education level, gender, ancestry, and language. Files are extracted programmatically and prepared for further processing.
+
+### Transform
+Once the data is extracted, it undergoes cleaning, normalization, and feature engineering. Null values are replaced or removed, and categories like age groups and income brackets are created. The data is then divided into two distinct tables:
+
+- **Demographic Data**: Includes personal information such as age, race, income, gender, marital status, and education.
+- **Origins Data**: Includes ancestry and language information, linked to the demographic data via unique serial numbers.
+
+### Load
+The transformed data is loaded into a PostgreSQL database with a structured schema. The schema consists of two main tables:
+
+1. **Demographic Data Table**: Contains fields like age, race, income, and education level.
+2. **Origins Table**: Contains ancestry and language data, linked to the demographic data through a unique serial number.
+
+After loading, the database is validated to ensure data integrity and relational consistency.
+
+---
+
+## Database Schema (See Data Dictionary linked in ReadMe for interpretation and search the codes)
+
+### Demographic Data Table
+- **Serial Number**: Unique identifier for each user.
+- **Age**: Age of the user.
+- **Race**: Race code representing the user's ethnicity.
+- **Income**: Personal income of the user.
+- **Education**: Education level represented numerically.
+- **Marital Status**: Code for marital status.
+- **Gender**: Gender code (1 for male, 2 for female).
+
+### Origins Table
+- **Serial Number**: Unique identifier linked to the demographic data.
+- **Language Code**: Represents the primary language of the user.
+- **Ancestry Code**: Represents the user's ancestry.
+
